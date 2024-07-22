@@ -9,3 +9,12 @@ open class ListSemigroup<A>: Semigroup<List<A>> {
 }
 
 fun <A> listSemigroup() = ListSemigroup<A>()
+
+class PairSemigroup<A, B>(val semiA: Semigroup<A>, val semiB: Semigroup<B>):
+        Semigroup<Pair<A, B>> {
+    override fun combine(pair1: Pair<A, B>, pair2: Pair<A, B>): Pair<A, B> =
+        Pair(semiA.combine(pair1.first, pair2.first),
+             semiB.combine(pair1.second, pair2.second))
+}
+
+val pair1: Pair<Int, String> = Pair(5, "Mike")
