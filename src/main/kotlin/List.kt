@@ -96,4 +96,10 @@ val list4Evens = listFilter(list4) { n -> isEven(n) }
 val dillos = Cons(dillo1, Cons(dillo2, Empty))
 
 // Eine Funktion auf alle Elemente einer Liste anwenden
-fun listMap()
+fun <A> listMap(list: List<A>, f: (A) -> A): List<A> =
+    when (list) {
+        is Empty -> Empty
+        is Cons ->
+            Cons(f(list.first),
+                listMap(list.rest, f))
+    }
