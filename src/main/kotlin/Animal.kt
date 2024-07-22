@@ -70,6 +70,19 @@ data class Rattlesnake(val length: Double,
         Rattlesnake(this.length, 0.0)
 }
 
+data class HouseCat(val name: String, val lives: Int): Animal {
+    override fun runOver(): Animal =
+        HouseCat(this.name, this.lives-1)
+}
+
+/*
+Neue Fälle in existierenden gemischten Daten:
+- FP :-(
+- OOP :-)
+ */
+
+
+
 // Tier überfahren
 // gemischte Daten rein
 fun runOverAnimal(animal: Animal): Animal =
@@ -78,6 +91,18 @@ fun runOverAnimal(animal: Animal): Animal =
         is Dillo -> runOverDillo(animal)
         is Rattlesnake ->
             Rattlesnake(animal.length, 0.0)
+        is HouseCat ->
+            HouseCat(animal.name, animal.lives-1)
+    }
+
+fun feedAnimal(animal: Animal): Animal =
+    when (animal) {
+        is Dillo ->
+            Dillo(animal.liveness, animal.weight + 1.0)
+        is Rattlesnake ->
+            Rattlesnake(animal.length, animal.thickness+1.0)
+        is HouseCat ->
+            HouseCat(animal.name, animal.lives+1)
     }
 
 // Klapperschlange 2m lang, 10cm dick
