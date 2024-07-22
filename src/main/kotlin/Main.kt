@@ -5,3 +5,7 @@ fun main() {
     println("Erinnerung: " + dillo1)
     println("überfahrene Klapperschlange: " + runOverAnimal(snake1))
 }
+
+fun foo() {
+    val list = listOf(3, 5, 7)
+}
