@@ -37,6 +37,16 @@ val list2 = Cons(2, Cons(5, Empty))
 val list3 = Cons(7, list2)
 val list4 = Cons(10, list3)
 
+fun <A> repeat(a: A, n: Int): List<A> {
+    var list: List<A> = Empty
+    var i: Int = 0;
+    while (i < n) {
+        list = Cons(a, list)
+        i = i + 1
+    }
+    return list
+}
+
 // Elemente einer Liste addieren
 fun listSum(list: List<Int>): Int =
     when (list) {
@@ -104,10 +114,19 @@ fun <A, B> listMap(list: List<A>, f: (A) -> B): List<B> =
                 listMap(list.rest, f))
     }
 
-fun listFold(list: List<Int>, root: Int, combine: (Int, Int) -> Int): Int =
+fun <A, B> listFold(list: List<A>, root: B, combine: (A, B) -> B): B =
     when (list) {
         is Empty -> root
         is Cons ->
             combine(list.first,
                     listFold(list.rest, root, combine)) // Selbstbezug
     }
+
+fun <A> empty(): List<A> = Empty
+
+fun <A, B> listMap2(list: List<A>, f: (A) -> B): List<B> =
+    listFold(list, empty()) { listDotFirst, rec ->
+        Cons(f(listDotFirst), rec)
+    }
+
+// Type mismatch: Required Empty, Found Cons<B>
