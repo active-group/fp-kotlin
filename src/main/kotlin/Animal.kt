@@ -13,4 +13,7 @@ Fallunterscheidung
 hier: Aufzählung
  */
 
-enum class Liveness { DEAD, ALIVE }
+enum class Liveness {
+    ALIVE,
+    DEAD
+}
