@@ -56,6 +56,14 @@ fun listSum(list: List<Int>): Int =
                     listSum(list.rest) // Selbstbezug
     }
 
+fun listSum1(list: List<Int>, acc: Int): Int =
+    when (list) {
+        is Empty -> acc
+        is Cons ->
+            listSum1(list.rest, acc + list.first)
+    }
+
+
 // val sum1 = listSum(list1)
 
 // Elemente einer Liste multiplizieren
