@@ -96,4 +96,4 @@ val list4Evens = listFilter(list4) { n -> isEven(n) }
 val dillos = Cons(dillo1, Cons(dillo2, Empty))
 
 // Eine Funktion auf alle Elemente einer Liste anwenden
-// fun listMap()
+fun listMap()
