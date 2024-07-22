@@ -35,3 +35,6 @@ data class Dillo(val liveness: Liveness,
 val dillo1 = Dillo(Liveness.ALIVE, 10.0)
 // totes Gürteltier, 8kg
 val dillo2 = Dillo(Liveness.DEAD, 8.0)
+
+fun runOverDillo(dillo: Dillo): Dillo =
+    Dillo(Liveness.DEAD, dillo.weight)
