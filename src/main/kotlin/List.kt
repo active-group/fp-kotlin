@@ -163,7 +163,7 @@ fun <A> append2F(list1: List<A>, acc: List<A>): List<A> =
             append2F(list1.rest, Cons(list1.first, acc))
     }
 
-fun <A> appendI(list1: List<A>, list2: List<A>): List<A> {
+fun <A> append2(list1: List<A>, list2: List<A>): List<A> {
     var input = list1
     var acc = list2
     while (input != Empty) {
