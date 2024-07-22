@@ -46,3 +46,4 @@ fun listProduct(list: List): Int =
 // neutrales Element:
 // x + 0 = 0 + x = x
 // x * 1 = 1 * x = x
+// x * 1 = 1 * x = x
