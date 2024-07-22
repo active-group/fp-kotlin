@@ -153,6 +153,14 @@ fun <A, B> listFold(list: List<A>, root: B, combine: (A, B) -> B): B =
                     listFold(list.rest, root, combine)) // Selbstbezug
     }
 
+fun <A> monoidFold(list: List<A>, monoid: Monoid<A>): A =
+    when (list) {
+        is Empty -> monoid.neutral()
+        is Cons ->
+            monoid.combine(list.first,
+                           monoidFold(list.rest, monoid))
+    }
+
 fun <A> empty(): List<A> = Empty
 
 fun <A, B> listMap2(list: List<A>, f: (A) -> B): List<B> =
