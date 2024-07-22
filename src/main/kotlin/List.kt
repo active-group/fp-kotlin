@@ -139,3 +139,7 @@ fun <A, B> listMap2(list: List<A>, f: (A) -> B): List<B> =
     }
 
 // Type mismatch: Required Empty, Found Cons<B>
+
+// Aufgabe:
+// 2 Listen aneinanderhängen, endrekursiv
+// möglicherweise wird eine Hilfsfunktion benötigt
