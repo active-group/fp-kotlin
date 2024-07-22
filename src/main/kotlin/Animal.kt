@@ -26,6 +26,8 @@ Beschreibung des Zustands eines Gürteltiers
 zu einem bestimmten Zeitpunkt.
  */
 
+// data class: Standard-Implementierungen
+// für Konstruktor, equals, hashCode, toString, copy
 data class Dillo(val liveness: Liveness,
                  val weight: Weight)
 
@@ -33,5 +35,3 @@ data class Dillo(val liveness: Liveness,
 val dillo1 = Dillo(Liveness.ALIVE, 10.0)
 // totes Gürteltier, 8kg
 val dillo2 = Dillo(Liveness.DEAD, 8.0)
-// data class: Standard-Implementierungen
-// für Konstruktor, equals, hashCode, toString, copy
