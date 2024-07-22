@@ -28,8 +28,17 @@ val list4 = Cons(10, list3)
 // Elemente einer Liste addieren
 fun listSum(list: List): Int =
     when (list) {
-        is Empty -> 1
+        is Empty -> 0
         is Cons ->
             list.first +
                     listSum(list.rest) // Selbstbezug
+    }
+
+// Elemente einer Liste multiplizieren
+fun listProduct(list: List): Int =
+    when (list) {
+        is Empty -> 1
+        is Cons ->
+            list.first +
+                listProduct(list.rest)
     }
