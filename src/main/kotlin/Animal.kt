@@ -86,6 +86,10 @@ data class HouseCat(val name: String, val lives: Int): Animal {
 Neue Fälle in existierenden gemischten Daten:
 - FP :-(
 - OOP :-)
+
+Neue Funktionen:
+- FP :-)
+- OOP :-(
  */
 
 
