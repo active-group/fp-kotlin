@@ -103,3 +103,11 @@ fun <A, B> listMap(list: List<A>, f: (A) -> B): List<B> =
             Cons(f(list.first),
                 listMap(list.rest, f))
     }
+
+fun listFold(list: List<Int>, root: Int, combine: (Int, Int) -> Int): Int =
+    when (list) {
+        is Empty -> root
+        is Cons ->
+            combine(list.first,
+                    listFold(list.rest, root, combine)) // Selbstbezug
+    }
