@@ -5,7 +5,7 @@ Tier auf dem texanischen Highway ist eins der folgenden:
 Fallunterscheidung
 hier: gemischte Daten
 */
-interface Animal
+sealed interface Animal
 
 /*
 Gürteltier hat folgende Eigenschaften:
@@ -68,7 +68,10 @@ data class Rattlesnake(val length: Double,
 fun runOverAnimal(animal: Animal): Animal =
     // Verzweigung
     when (animal) {
-        is Dillo -> TODO()
-        // is Rattlesnake -> TODO()
+        is Dillo -> runOverDillo(animal)
+        is Rattlesnake ->
+            Rattlesnake(animal.thickness, 0.0)
     }
 
+// Klapperschlange 2m lang, 10cm dick
+val snake1 = Rattlesnake(200.0, 10.0)
