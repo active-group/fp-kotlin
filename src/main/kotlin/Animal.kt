@@ -5,7 +5,9 @@ Tier auf dem texanischen Highway ist eins der folgenden:
 Fallunterscheidung
 hier: gemischte Daten
 */
-sealed interface Animal
+sealed interface Animal {
+    fun runOver(): Animal
+}
 
 /*
 Gürteltier hat folgende Eigenschaften:
@@ -38,7 +40,7 @@ zu einem bestimmten Zeitpunkt.
 data class Dillo(val liveness: Liveness,
                  val weight: Weight): Animal {
     // Problem: das Gürteltier überfährt sich nicht selbst
-    fun runOver(): Dillo =
+    override fun runOver(): Animal =
         // Dillo(Liveness.DEAD, this.weight)
         // "functional update"
         this.copy(liveness = Liveness.DEAD)
@@ -61,7 +63,12 @@ Eine Klapperschlange hat folgende Eigenschaften:
 zusammengesetzte Daten
  */
 data class Rattlesnake(val length: Double,
-                       val thickness: Double) : Animal
+                       val thickness: Double)
+    : Animal {
+
+    override fun runOver(): Animal =
+        Rattlesnake(this.length, 0.0)
+}
 
 // Tier überfahren
 // gemischte Daten rein
