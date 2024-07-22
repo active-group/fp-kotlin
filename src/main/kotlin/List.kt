@@ -156,12 +156,24 @@ fun <A> append(list1: List<A>, list2: List<A>): List<A> =
 // 4 5 6
 // -> 1 2 3 - 4 5 6
 // acc: Die Elemente des Endergebnisses bis auf list1
-fun <A> append2(list1: List<A>, acc: List<A>): List<A> =
+fun <A> append2F(list1: List<A>, acc: List<A>): List<A> =
     when (list1) {
         is Empty -> acc
         is Cons ->
-            append2(list1.rest, Cons(list1.first, acc))
+            append2F(list1.rest, Cons(list1.first, acc))
     }
+
+fun <A> appendI(list1: List<A>, list2: List<A>): List<A> {
+    var input = list1
+    var acc = list2
+    while (input != Empty) {
+        val cons = input as Cons
+        input = cons.rest
+        acc = Cons(cons.first, acc)
+    }
+    return acc
+}
+
 
 fun <A> reverse(list: List<A>): List<A> =
     append2(list, Empty)
