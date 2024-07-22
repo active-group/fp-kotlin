@@ -7,5 +7,12 @@ data class Some<A>(val value: A): Option<A>
 fun <A> listIndex(list: List<A>, element: A): Option<Int> =
     when (list) {
         is Empty -> None
-        is Cons -> TODO()
+        is Cons ->
+            if (list.first == element)
+                Some(0)
+            else
+                when (val res =  listIndex(list.rest, element)) {
+                    is None -> None
+                    is Some -> Some(res.value + 1)
+                }
     }
