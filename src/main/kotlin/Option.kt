@@ -16,3 +16,9 @@ fun <A> listIndex(list: List<A>, element: A): Option<Int> =
                     is Some -> Some(res.value + 1)
                 }
     }
+
+fun <A, B> optionMap(option: Option<A>, f: (A) -> B): Option<B> =
+    when (option) {
+        is None -> None
+        is Some -> Some(f(option.value))
+    }
