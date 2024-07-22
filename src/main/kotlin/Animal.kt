@@ -70,7 +70,7 @@ fun runOverAnimal(animal: Animal): Animal =
     when (animal) {
         is Dillo -> runOverDillo(animal)
         is Rattlesnake ->
-            Rattlesnake(animal.thickness, 0.0)
+            Rattlesnake(animal.length, 0.0)
     }
 
 // Klapperschlange 2m lang, 10cm dick
