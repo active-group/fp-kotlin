@@ -4,6 +4,7 @@ fun main() {
     println("nachher: " + runOverDillo(dillo1))
     println("Erinnerung: " + dillo1)
     println("überfahrene Klapperschlange: " + runOverAnimal(snake1))
+    println("Summe von list4:" + listSum(list4))
 }
 
 fun foo() {
