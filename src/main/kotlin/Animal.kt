@@ -82,6 +82,16 @@ data class HouseCat(val name: String, val lives: Int): Animal {
         HouseCat(this.name, this.lives+1)
 }
 
+val dillo1FedAndRunOver =
+    // runOverAnimal(feedAnimal(dillo1))
+    // dillo1.feed().runOver()
+    dillo1.call(::runOverAnimal).call(::feedAnimal)
+
+fun <A, B> A.call(f: (A) -> B): B =
+    f(this)
+
+
+
 /*
 Neue Fälle in existierenden gemischten Daten:
 - FP :-(

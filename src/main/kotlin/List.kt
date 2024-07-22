@@ -56,6 +56,28 @@ fun listSum(list: List<Int>): Int =
                     listSum(list.rest) // Selbstbezug
     }
 
+// Funktion wie +, *
+
+// Algebra
+
+// Halbgruppe:
+// Typ T
+// combine: (T, T) -> T
+// combine(combine(a, b), c) = combine(a, combine(b, c))
+
+// Monoid
+// Halbgruppe +
+// neutral: T
+// combine(neutral, a) = combine(a, neutral) = a
+
+// Duschprodukte:
+// combine(combine(a, b), c) - a, b 25%, c 50%
+// combine(a, combine(b, c)) - a 50%, b, c 25%
+
+// Assoziavität
+// (a + b) + c = a + (b + c)
+// (a * b) * c = a * (b * c)
+
 tailrec
 fun listSum1(list: List<Int>, acc: Int): Int =
     when (list) {
@@ -167,9 +189,9 @@ fun <A> append2(list1: List<A>, list2: List<A>): List<A> {
     var input = list1
     var acc = list2
     while (input != Empty) {
-        val cons = input as Cons
-        input = cons.rest
-        acc = Cons(cons.first, acc)
+        // val cons = input as Cons
+        input = (input as Cons).rest
+        acc = Cons((input as Cons).first, acc)
     }
     return acc
 }
