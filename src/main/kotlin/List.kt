@@ -143,3 +143,25 @@ fun <A, B> listMap2(list: List<A>, f: (A) -> B): List<B> =
 // Aufgabe:
 // 2 Listen aneinanderhängen, endrekursiv
 // möglicherweise wird eine Hilfsfunktion benötigt
+
+fun <A> append(list1: List<A>, list2: List<A>): List<A> =
+    when (list1) {
+        is Empty -> list2
+        is Cons ->
+            Cons(list1.first,
+                 append(list1.rest, list2))
+    }
+
+// 1 2 3
+// 4 5 6
+// -> 1 2 3 - 4 5 6
+// acc: Die Elemente des Endergebnisses bis auf list1
+fun <A> append2(list1: List<A>, list2: List<A>, acc: List<A>): List<A> =
+    when (list1) {
+        is Empty -> acc
+        is Cons ->
+            append2(list1.rest, list2, Cons(list1.first, acc))
+    }
+
+fun <A> appendT(list1: List<A>, list2: List<A>): List<A> =
+    append2(list1, list2, list2)
