@@ -52,14 +52,14 @@ fun listSum(list: List<Int>): Int =
     when (list) {
         is Empty -> 0 // neutrales Element von +
         is Cons ->
-            list.first +
+            list.first + // Kontext
                     listSum(list.rest) // Selbstbezug
     }
 
 fun listSum1(list: List<Int>, acc: Int): Int =
     when (list) {
         is Empty -> acc
-        is Cons ->
+        is Cons -> // kein Kontext: tail call
             listSum1(list.rest, acc + list.first)
     }
 
