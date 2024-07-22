@@ -7,6 +7,7 @@ hier: gemischte Daten
 */
 sealed interface Animal {
     fun runOver(): Animal
+    fun feed(): Animal
 }
 
 /*
@@ -44,6 +45,8 @@ data class Dillo(val liveness: Liveness,
         // Dillo(Liveness.DEAD, this.weight)
         // "functional update"
         this.copy(liveness = Liveness.DEAD)
+    override fun feed(): Animal =
+        Dillo(this.liveness, this.weight+1.0)
 }
 
 // lebendiges Güretltier, 10kg
@@ -68,11 +71,15 @@ data class Rattlesnake(val length: Double,
 
     override fun runOver(): Animal =
         Rattlesnake(this.length, 0.0)
+    override fun feed(): Animal =
+        Rattlesnake(this.length, this.thickness+1.0)
 }
 
 data class HouseCat(val name: String, val lives: Int): Animal {
     override fun runOver(): Animal =
         HouseCat(this.name, this.lives-1)
+    override fun feed(): Animal =
+        HouseCat(this.name, this.lives+1)
 }
 
 /*
