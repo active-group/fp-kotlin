@@ -1,4 +1,7 @@
-sealed interface Option<out A>
+sealed interface Option<out A> {
+    fun <B> map(f: (A) -> B): Option<B> =
+        optionMap(this, f)
+}
 
 object None: Option<Nothing>
 data class Some<A>(val value: A): Option<A>
