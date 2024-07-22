@@ -156,12 +156,15 @@ fun <A> append(list1: List<A>, list2: List<A>): List<A> =
 // 4 5 6
 // -> 1 2 3 - 4 5 6
 // acc: Die Elemente des Endergebnisses bis auf list1
-fun <A> append2(list1: List<A>, list2: List<A>, acc: List<A>): List<A> =
+fun <A> append2(list1: List<A>, acc: List<A>): List<A> =
     when (list1) {
         is Empty -> acc
         is Cons ->
-            append2(list1.rest, list2, Cons(list1.first, acc))
+            append2(list1.rest, Cons(list1.first, acc))
     }
 
+fun <A> reverse(list: List<A>): List<A> =
+    append2(list, Empty)
+
 fun <A> appendT(list1: List<A>, list2: List<A>): List<A> =
-    append2(list1, list2, list2)
+    append2(reverse(list1), list2)
