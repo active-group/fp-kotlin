@@ -27,6 +27,8 @@ val p1 =
  */
 
 sealed interface DB<A> {
+    // <R> Stream<B> flatMap(Function<A, Stream<B>> mapper)
+
     // this und (Ergebnis von) next aneinanderhängen
     fun <B> splice(next: (A) -> DB<B>): DB<B> =
         when (this) {
