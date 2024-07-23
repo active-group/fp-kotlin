@@ -95,8 +95,9 @@ fun <A> runDB(program: DB<A>, db: Map<Key, Value>): A =
             runDB(program.continuation(value), db)
         }
         is Put -> {
-            db[program.key] = program.value
-            TODO()
+            val dbNew = db + Pair(program.key, program.value)
+            // db[program.key] = program.value
+            runDB(program.continuation(Unit), dbNew)
         }
         is Return -> program.result
     }
