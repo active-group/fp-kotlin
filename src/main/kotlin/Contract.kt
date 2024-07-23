@@ -110,7 +110,15 @@ fun fxSwap(date: Date, amount1: Amount, currency1: Currency,
 
 object Zero: Contract
 
-fun combine(contract1: Contract, contract2
+fun combine(contract1: Contract, contract2: Contract): Contract =
+    when (contract1) {
+        is Zero -> contract2
+        else ->
+            when (contract2) {
+                Zero -> contract1
+                else -> Combine(contract1, contract2)
+            }
+    }
 
 data class Payment(val direction: Direction,
                    val date: Date,
