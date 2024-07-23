@@ -13,9 +13,16 @@
 /* Ein Zero-Coupon hat folgende Eigenschaften:
 - Datum -UND-
 - Betrag -UND-
-- Währung -UND
+- Währung
  */
 
 sealed interface Contract
 
-data class ZeroCouponBond
+typealias Date = String
+typealias Amount = Double
+
+enum class Currency { EUR, USD, GBP, JPY }
+
+data class ZeroCouponBond(val date: Date,
+                          val amount: Amount,
+                          val currency: Currency)
