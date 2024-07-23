@@ -24,10 +24,23 @@ sealed interface Validation<out A> {
             is Invalid ->
                 Invalid(this.errors)
         }
-    // Wunsch: beliebigstelliges map
-    
 
     // applikativer Funktor
+    // Wunsch: beliebigstelliges map
+    fun <B> amap(vf: Validation<(A) -> B>): Validation<B> =
+        when (this) {
+            is Valid ->
+                when (vf) {
+                    is Valid ->
+                        Valid(vf.value(this.value))
+                    is Invalid -> Invalid(vf.errors)
+                }
+            is Invalid ->
+                when (vf) {
+                    is Valid -> Invalid(this.errors)
+                    is Invalid -> Invalid(append(this.errors, vf.errors))
+                }
+        }
 }
 data class Valid<A>(val value: A): Validation<A>
 data class Invalid(val errors: List<String>): Validation<Nothing>
@@ -44,7 +57,7 @@ fun validateAge(age: Int): Validation<Int> =
     else
         Invalid(Cons("Alter darf nicht negativ sein", Empty))
 
-fun <A, B, C> vmap2(valA: Validation<A>, valB: Validation<B>, f: (A, B) -> C):
+fun <A, B, C> vmap2Old(valA: Validation<A>, valB: Validation<B>, f: (A, B) -> C):
         Validation<C> =
     when (valA) {
         is Valid ->
@@ -61,6 +74,24 @@ fun <A, B, C> vmap2(valA: Validation<A>, valB: Validation<B>, f: (A, B) -> C):
                     Invalid(append(valA.errors, valB.errors))
             }
     }
+
+// fun <B> amap(vf: Validation<(A) -> B>): Validation<B> =
+
+fun <A, B, C> vmap2(valA: Validation<A>, valB: Validation<B>, f: (A, B) -> C):
+        Validation<C> =
+    valB.amap(valA.amap(Valid(curry(f))))
+
+fun <A, B, C, D> vmap3(valA: Validation<A>, valB: Validation<B>, valC: Validation<C>,
+                       f: (A, B, C) -> D): Validation<D> =
+    valB.amap(valA.amap(Valid(curry(f)))))
+
+
+// valA.amap(Valid(curry(f))) führt zu
+// Type mismatch:
+// Required Validation<C>
+// Found Validation<(B) -> C>
+
+
 
 
 data class Person1(val name: String)
