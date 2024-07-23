@@ -167,7 +167,7 @@ fun denotation(contract: Contract, today: Date)
             val (payments1, residual1) = denotation(contract.contract1, today)
             val (payments2, residual2) = denotation(contract.contract1, today)
             Pair(append(payments1, payments2),
-                Combine(residual1, residual2))
+                combine(residual1, residual2))
 
         }
         is Zero ->
