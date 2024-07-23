@@ -70,6 +70,9 @@ fun <A, B, C> dbCompose(f: (B) -> DB<C>, g: (A) -> DB<B>): (A) -> DB<C> =
         g(a).splice(f)
     }
 
+// Assoziativität auf Monaden:
+// m.splice { x -> k(x).splice(h) } =  m.splice(k).splice(h)
+
 // dbCompose(a, dbCompose(b, c)) = dbCompose(dbCompose(a, b), c)
 
 // Typkonstruktor, Return und splice zusammen: Monade
