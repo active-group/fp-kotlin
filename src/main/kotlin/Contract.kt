@@ -100,5 +100,9 @@ val fxSwap1 = Combine(zeroCouponBond("2024-12-24", 92.0, Currency.EUR),
 
 fun fxSwap(date: Date, amount1: Amount, currency1: Currency,
            amount2: Amount, currency2: Currency) =
+    /*
     Combine(zeroCouponBond(date, amount1, currency1),
     Reverse(zeroCouponBond(date, amount2, currency2)))
+     */
+    Later(date, Combine(Multiple(amount1, One(currency1)),
+        Multiple(amount2, One(currency2))))
