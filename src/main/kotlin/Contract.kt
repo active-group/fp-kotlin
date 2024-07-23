@@ -110,10 +110,21 @@ fun fxSwap(date: Date, amount1: Amount, currency1: Currency,
 
 object Zero: Contract
 
+fun combine(contract1: Contract, contract2
+
 data class Payment(val direction: Direction,
                    val date: Date,
                    val amount: Amount,
-                   val currency: Currency)
+                   val currency: Currency) {
+    fun scale(factor: Amount): Payment =
+        this.copy(amount = this.amount * factor)
+    fun reverse(): Payment =
+        this.copy(direction =
+          when (this.direction) {
+            Direction.LONG -> Direction.SHORT
+            Direction.SHORT -> Direction.LONG
+          })
+}
 
 val p1 = Pair(12, "Mike")
 fun foo(p: Pair<Int, String>): Int {
@@ -123,4 +134,39 @@ fun foo(p: Pair<Int, String>): Int {
 
 // Zahlungen bis heute + Residualvertrag
 fun denotation(contract: Contract, today: Date)
-  : Pair<List<Payment>, Contract> = TODO()
+  : Pair<List<Payment>, Contract> =
+    when (contract) {
+        is One ->
+            Pair(Cons(Payment(Direction.LONG, today, 1.0, contract.currency), Empty),
+                Zero)
+        is Multiple -> {
+            val (payments, residual) = denotation(contract.contract, today)
+            Pair(listMap(payments) { it.scale(contract.amount) },
+                 Multiple(contract.amount, residual))
+        }
+        is Later ->
+            if (today >= contract.date)
+                denotation(contract.contract, today)
+            else
+                Pair(Empty, contract)
+        is Reverse ->
+        {
+            val (payments, residual) = denotation(contract.contract, today)
+            Pair(listMap(payments) { it.reverse() },
+                Reverse(residual))
+        }
+        is Combine -> {
+            val (payments1, residual1) = denotation(contract.contract1, today)
+            val (payments2, residual2) = denotation(contract.contract1, today)
+            Pair(append(payments1, payments2),
+                Combine(residual1, residual2))
+
+        }
+        is Zero ->
+            Pair(Empty, Zero)
+    }
+
+val c7 = Multiple(100.0,
+    Combine(One(Currency.EUR),
+        Later("2024-12-24", One(Currency.EUR))))
+
