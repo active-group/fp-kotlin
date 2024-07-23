@@ -54,11 +54,21 @@ sealed interface DB<A> {
             is Return ->
                 next(this.result)
         }
+
+    fun andThen(dba: DB<A>): DB<A> =
+        this.splice { _ -> dba}
 }
 data class Get<A>(val key: Key, val continuation: (Value) -> DB<A>): DB<A>
 data class Put<A>(val key: Key, val value: Value,
     val continuation: (Unit) -> DB<A>): DB<A>
 data class Return<A>(val result: A): DB<A>
+
+// A -> DB<B>
+// Kleisli arrow
+fun <A, B, C> dbCompose(f: (B) -> DB<C>, g: (A) -> DB<B>): (A) -> DB<C> =
+    { a ->
+        g(a).splice(f)
+    }
 
 // Typkonstruktor, Return und splice zusammen: Monade
 
