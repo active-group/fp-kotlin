@@ -141,6 +141,14 @@ fun foo(p: Pair<Int, String>): Int {
     return p1a
 }
 
+val contractSemigroup = object : Semigroup<Contract> {
+    override fun combine(t1: Contract, t2: Contract): Contract =
+        Combine(t1, t2)
+}
+
+var denotationSemigroup: Semigroup<Pair<List<Payment>, Contract>>
+        = pairSemigroup(listSemigroup<Payment>(), contractSemigroup)
+
 // Zahlungen bis heute + Residualvertrag
 fun denotation(contract: Contract, today: Date)
   : Pair<List<Payment>, Contract> =
@@ -165,11 +173,13 @@ fun denotation(contract: Contract, today: Date)
                 Reverse(residual))
         }
         is Combine -> {
-            val (payments1, residual1) = denotation(contract.contract1, today)
+            denotationSemigroup.combine(denotation(contract.contract1, today),
+                denotation(contract.contract1, today))
+            /* val (payments1, residual1) = denotation(contract.contract1, today)
             val (payments2, residual2) = denotation(contract.contract1, today)
             Pair(append(payments1, payments2),
                 combine(residual1, residual2))
-
+            */
         }
         is Zero ->
             Pair(Empty, Zero)
