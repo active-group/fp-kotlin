@@ -16,7 +16,7 @@
    "Ich bekomme am 24.12.2024 100€."
 
  Currency Swap:
- Ich bekomme am 24.12.2024 100€ und
+ Ich bekomme am 24.12.2024 92€ und
  ich bezahle am 24.12.2024 100$.
  */
 
@@ -73,3 +73,22 @@ fun zeroCouponBond(date: Date,
     Later(date, Multiple(amount, One(currency)))
 
 val zcb1 = zeroCouponBond("2024-12-24", 100.0, Currency.EUR)
+
+// "Ich bezahle ..."
+
+enum class Direction { LONG, SHORT }
+
+// data class WithDirection(val direction: Direction, val contract: Contract): Contract
+
+data class Reverse(val contract: Contract): Contract
+
+// "Ich bezahle am 24.12.2024 100$."
+val c5 = Reverse(
+    zeroCouponBond("2024-12-24", 100.0, Currency.USD))
+
+// "Ich bekomme ..."
+
+val c6 = Reverse(c5)
+
+// das gleiche wie c5
+// val c7 = WithDirection(Direction.LONG, c5)
