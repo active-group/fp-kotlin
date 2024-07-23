@@ -107,3 +107,5 @@ fun fxSwap(date: Date, amount1: Amount, currency1: Currency,
      */
     Later(date, Combine(Multiple(amount1, One(currency1)),
         Reverse(Multiple(amount2, One(currency2)))))
+
+object Zero: Contract
