@@ -88,6 +88,7 @@ val prog1a: DB<String> =
         }
     }
 
+tailrec
 fun <A> runDB(program: DB<A>, db: Map<Key, Value>): A =
     when (program) {
         is Get -> {
@@ -101,3 +102,5 @@ fun <A> runDB(program: DB<A>, db: Map<Key, Value>): A =
         }
         is Return -> program.result
     }
+
+suspend fun mult(i1: Int, i2: Int) = i1 * i2
