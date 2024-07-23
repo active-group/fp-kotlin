@@ -109,3 +109,18 @@ fun fxSwap(date: Date, amount1: Amount, currency1: Currency,
         Reverse(Multiple(amount2, One(currency2)))))
 
 object Zero: Contract
+
+data class Payment(val direction: Direction,
+                   val date: Date,
+                   val amount: Amount,
+                   val currency: Currency)
+
+val p1 = Pair(12, "Mike")
+fun foo(p: Pair<Int, String>): Int {
+    val (p1a, p1b) = p
+    return p1a
+}
+
+// Zahlungen bis heute + Residualvertrag
+fun denotation(contract: Contract, today: Date)
+  : Pair<List<Payment>, Contract> = TODO()
