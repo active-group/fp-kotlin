@@ -27,7 +27,18 @@ val p1 =
  */
 
 sealed interface DB<A> {
-    // <R> Stream<B> flatMap(Function<A, Stream<B>> mapper)
+    // in Stream<A>
+    // <B> Stream<B> flatMap(Function<A, Stream<B>> mapper)
+    // fun <B> flatMap(next: (A) -> Stream<B>): Stream<B>
+
+    // Funktor
+    // fun <B> map( f:    (A) -> B): F<B>
+
+    // applikativer Funktop
+    // fun <B> amap(vf: F<(A) -> B): F<B>
+
+    // Monade
+    // fun <B> splice(next: (A) -> F<B>): F<B>
 
     // this und (Ergebnis von) next aneinanderhängen
     fun <B> splice(next: (A) -> DB<B>): DB<B> =
@@ -75,4 +86,17 @@ val prog1a: DB<String> =
                 }
             }
         }
+    }
+
+fun <A> runDB(program: DB<A>, db: Map<Key, Value>): A =
+    when (program) {
+        is Get -> {
+            val value = db.get(program.key)!!
+            runDB(program.continuation(value), db)
+        }
+        is Put -> {
+            db[program.key] = program.value
+            TODO()
+        }
+        is Return -> program.result
     }
