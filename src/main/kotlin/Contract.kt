@@ -9,7 +9,11 @@
   - Währung
     "Ich bekomme 1€ jetzt."
 
- - "Ich bekomme 100€ jetzt."
+ - Vielfaches
+   "Ich bekomme 100€ jetzt."
+
+ - Datum
+   "Ich bekomme am 24.12.2024 100€."
  */
 
 /* Ein Vertrag ist einer der folgenden:
@@ -51,3 +55,10 @@ data class Multiple(val amount: Amount, val contract: Contract): Contract
 
 // "Ich bekomme 100€ jetzt."
 val c2 = Multiple(100.0, One(Currency.EUR))
+
+// "Ich bekomme 5000€ jetzt."
+val c3 = Multiple(50.0, Multiple(100.0, One(Currency.EUR)))
+
+data class Later(val date: Date, val contract: Contract): Contract
+
+val c4 = Later("2024-12-24", Multiple(100.0, One(Currency.EUR)))
