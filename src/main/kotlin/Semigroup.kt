@@ -26,3 +26,5 @@ fun <A, B> pairSemigroup(semiA: Semigroup<A>, semiB: Semigroup<B>):
     }
 
 val pair1: Pair<Int, String> = Pair(5, "Mike")
+
+fun <A> optionSemigroup(semiA: Semigroup<A>): Semigroup<Option<A>> = TODO()
