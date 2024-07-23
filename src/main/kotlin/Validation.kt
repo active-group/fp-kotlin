@@ -6,8 +6,20 @@ Yaron Minsky: "Make illegal states unrepresentable."
 2. "illegale" Objekte gar nicht erst herstellen
  */
 
-data class Person(val name: String, val age: Int)
+@JvmInline
+value class Name private constructor(val text: String) {
+    companion object {
+        fun validateName(name: String): Validation<Name> =
+            if (name == "")
+                Invalid(Cons("Name darf nicht leer sein", Empty))
+            else
+                Valid(Name(name))
+    }
+}
+data class Age(val years: Int)
 
+data class Person(val name: Name, val age: Age)
+/*
 fun makePersonOptional(name: String, age: Int): Option<Person> =
     if (name == "")
         None
@@ -16,7 +28,7 @@ fun makePersonOptional(name: String, age: Int): Option<Person> =
             Some(Person(name, age))
         else
             None
-
+*/
 sealed interface Validation<out A> {
     fun <B> map(f: (A) -> B): Validation<B> =
         when (this) {
@@ -45,15 +57,9 @@ sealed interface Validation<out A> {
 data class Valid<A>(val value: A): Validation<A>
 data class Invalid(val errors: List<String>): Validation<Nothing>
 
-fun validateName(name: String): Validation<String> =
-    if (name == "")
-        Invalid(Cons("Name darf nicht leer sein", Empty))
-    else
-        Valid(name)
-
-fun validateAge(age: Int): Validation<Int> =
-    if (age >= 0)
-        Valid(age)
+fun validateAge(years: Int): Validation<Age> =
+    if (years >= 0)
+        Valid(Age(years))
     else
         Invalid(Cons("Alter darf nicht negativ sein", Empty))
 
@@ -94,10 +100,10 @@ fun <A, B, C, D> vmap3(valA: Validation<A>, valB: Validation<B>, valC: Validatio
 
 
 
-data class Person1(val name: String)
+data class Person1(val name: Name)
 
 fun makePerson1(name: String): Validation<Person1> =
-    validateName(name).map(::Person1)
+    Name.validateName(name).map(::Person1)
 
 /*
 fun makePerson(name: String, age: Int): Validation<Person> =
@@ -114,4 +120,4 @@ fun makePerson(name: String, age: Int): Validation<Person> =
  */
 
 fun makePerson(name: String, age: Int): Validation<Person> =
-    vmap2(validateName(name), validateAge(age), ::Person)
+    vmap2(Name.validateName(name), validateAge(age), ::Person)
