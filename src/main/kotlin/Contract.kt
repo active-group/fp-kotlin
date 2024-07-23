@@ -110,6 +110,7 @@ fun fxSwap(date: Date, amount1: Amount, currency1: Currency,
 
 object Zero: Contract
 
+// "smart constructor"
 fun combine(contract1: Contract, contract2: Contract): Contract =
     when (contract1) {
         is Zero -> contract2
