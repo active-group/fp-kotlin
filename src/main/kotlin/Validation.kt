@@ -1,3 +1,5 @@
+import java.security.InvalidKeyException
+
 /*
 Yaron Minsky: "Make illegal states unrepresentable."
 1. mit Typen sicherstellen, daß nur "legale" Objekte möglich sind
@@ -15,9 +17,52 @@ fun makePersonOptional(name: String, age: Int): Option<Person> =
         else
             None
 
-sealed interface Validation<out A>
+sealed interface Validation<out A> {
+    fun <B> map(f: (A) -> B): Validation<B> =
+        when (this) {
+            is Valid -> Valid(f(this.value))
+            is Invalid ->
+                Invalid(this.errors)
+        }
+}
 data class Valid<A>(val value: A): Validation<A>
 data class Invalid(val errors: List<String>): Validation<Nothing>
+
+fun validateName(name: String): Validation<String> =
+    if (name == "")
+        Invalid(Cons("Name darf nicht leer sein", Empty))
+    else
+        Valid(name)
+
+fun validateAge(age: Int): Validation<Int> =
+    if (age >= 0)
+        Valid(age)
+    else
+        Invalid(Cons("Alter darf nicht negativ sein", Empty))
+
+fun <A, B, C> vmap2(valA: Validation<A>, valB: Validation<B>, f: (A, B) -> C):
+        Validation<C> =
+    when (valA) {
+        is Valid ->
+            when (valB) {
+                is Valid ->
+                    Valid(f(valA.value, valB.value))
+                is Invalid ->
+                    Invalid(valB.errors)
+            }
+        is Invalid ->
+            when (valB) {
+                is Valid -> Invalid(valA.errors)
+                is Invalid ->
+                    Invalid(append(valA.errors, valB.errors))
+            }
+    }
+
+
+data class Person1(val name: String)
+
+fun makePerson1(name: String): Validation<Person1> =
+    validateName(name).map(::Person1)
 
 fun makePerson(name: String, age: Int): Validation<Person> =
     if (name == "")
