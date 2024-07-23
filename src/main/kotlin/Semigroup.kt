@@ -27,5 +27,14 @@ fun <A, B> pairSemigroup(semiA: Semigroup<A>, semiB: Semigroup<B>):
 
 val pair1: Pair<Int, String> = Pair(5, "Mike")
 
-fun <A> optionSemigroup(semiA: Semigroup<A>): Semigroup<Option<A>> = TODO()
+open class OptionSemigroup<A>(val semiA: Semigroup<A>): Semigroup<Option<A>> {
+    override fun combine(t1: Option<A>, t2: Option<A>): Option<A> =
+        when (t1) {
+            is None -> t2
+            is Some -> when (t2) {
+                is None -> t1
+                is Some -> Some(semiA.combine(t1.value, t2.value))
+            }
+        }
+}
 // ... und das gleiche für Monoid
