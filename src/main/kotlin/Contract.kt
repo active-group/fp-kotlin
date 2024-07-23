@@ -93,6 +93,7 @@ val c6 = Reverse(c5)
 // das gleiche wie c5
 // val c7 = WithDirection(Direction.LONG, c5)
 
+// Halbgruppe
 data class Combine(val contract1: Contract, val contract2: Contract): Contract
 
 val fxSwap1 = Combine(zeroCouponBond("2024-12-24", 92.0, Currency.EUR),
@@ -105,4 +106,4 @@ fun fxSwap(date: Date, amount1: Amount, currency1: Currency,
     Reverse(zeroCouponBond(date, amount2, currency2)))
      */
     Later(date, Combine(Multiple(amount1, One(currency1)),
-        Multiple(amount2, One(currency2))))
+        Reverse(Multiple(amount2, One(currency2)))))
