@@ -83,7 +83,7 @@ fun <A, B, C> vmap2(valA: Validation<A>, valB: Validation<B>, f: (A, B) -> C):
 
 fun <A, B, C, D> vmap3(valA: Validation<A>, valB: Validation<B>, valC: Validation<C>,
                        f: (A, B, C) -> D): Validation<D> =
-    valB.amap(valA.amap(Valid(curry(f)))))
+    valC.amap(valB.amap(valA.amap(Valid(curry(f)))))
 
 
 // valA.amap(Valid(curry(f))) führt zu
@@ -99,6 +99,7 @@ data class Person1(val name: String)
 fun makePerson1(name: String): Validation<Person1> =
     validateName(name).map(::Person1)
 
+/*
 fun makePerson(name: String, age: Int): Validation<Person> =
     if (name == "")
         if (age >= 0)
@@ -110,4 +111,7 @@ fun makePerson(name: String, age: Int): Validation<Person> =
             Valid(Person(name, age))
         else
             Invalid(Cons("Alter darf nicht negativ sein", Empty))
+ */
 
+fun makePerson(name: String, age: Int): Validation<Person> =
+    vmap2(validateName(name), validateAge(age), ::Person)
