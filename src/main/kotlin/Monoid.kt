@@ -8,6 +8,6 @@ class ListMonoid<A>: ListSemigroup<A>(), Monoid<List<A>> {
 
 fun <A> listMonoid() = ListMonoid<A>()
 
-class OptionMonoid<A>(val aMonoid: Monoid<A>): Monoid<Option<A>>, OptionSemigroup<A>(aMonoid) {
+class OptionMonoid<A>(val aSemigroup: Semigroup<A>): Monoid<Option<A>>, OptionSemigroup<A>(aSemigroup) {
     override fun neutral(): Option<A> = None
 }
