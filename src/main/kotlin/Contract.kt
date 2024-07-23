@@ -92,3 +92,13 @@ val c6 = Reverse(c5)
 
 // das gleiche wie c5
 // val c7 = WithDirection(Direction.LONG, c5)
+
+data class Combine(val contract1: Contract, val contract2: Contract): Contract
+
+val fxSwap1 = Combine(zeroCouponBond("2024-12-24", 92.0, Currency.EUR),
+    Reverse(zeroCouponBond("2024-12-24", 100.0, Currency.USD)))
+
+fun fxSwap(date: Date, amount1: Amount, currency1: Currency,
+           amount2: Amount, currency2: Currency) =
+    Combine(zeroCouponBond(date, amount1, currency1),
+    Reverse(zeroCouponBond(date, amount2, currency2)))
