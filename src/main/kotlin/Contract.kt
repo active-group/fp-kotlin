@@ -14,6 +14,10 @@
 
  - Datum
    "Ich bekomme am 24.12.2024 100€."
+
+ Currency Swap:
+ Ich bekomme am 24.12.2024 100€ und
+ ich bezahle am 24.12.2024 100$.
  */
 
 /* Ein Vertrag ist einer der folgenden:
@@ -62,3 +66,10 @@ val c3 = Multiple(50.0, Multiple(100.0, One(Currency.EUR)))
 data class Later(val date: Date, val contract: Contract): Contract
 
 val c4 = Later("2024-12-24", Multiple(100.0, One(Currency.EUR)))
+
+fun zeroCouponBond(date: Date,
+                   amount: Amount,
+                   currency: Currency): Contract =
+    Later(date, Multiple(amount, One(currency)))
+
+val zcb1 = zeroCouponBond("2024-12-24", 100.0, Currency.EUR)
