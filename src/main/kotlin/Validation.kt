@@ -24,6 +24,10 @@ sealed interface Validation<out A> {
             is Invalid ->
                 Invalid(this.errors)
         }
+    // Wunsch: beliebigstelliges map
+    
+
+    // applikativer Funktor
 }
 data class Valid<A>(val value: A): Validation<A>
 data class Invalid(val errors: List<String>): Validation<Nothing>
